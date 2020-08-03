@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import Products from "./components/Products";
 import Filter from "./components/Filter";
 import Cart from "./components/Cart";
-import { Provider } from "react-redux";
-import store from "./store";
 
 function App() {
   const [state, setstate] = useState({
@@ -13,13 +11,26 @@ function App() {
     cartItems: [],
   });
 
+  useEffect(() => {
+    fetch("http://localhost:5000/products")
+      .then((res) => res.json())
+      .then((data) =>
+        setstate({
+          products: data,
+          filteredProducts: data,
+          cartItems: [],
+        })
+      );
+    console.log("Products fetched");
+  }, []);
+
   const handleChangeSort = (e) => {
     setstate({ ...state, sort: e.target.value });
     listProducts();
   };
 
   const handleChangeSize = (e) => {
-    // console.log("handleChangeSize");
+    console.log("handleChangeSize");
     setstate({ ...state, size: e.target.value });
     listProducts();
   };
@@ -69,44 +80,43 @@ function App() {
   };
 
   const handleRemoveCart = (item) => {
-    // console.log("handleRemoveCart",item);
+    console.log("handleRemoveCart");
+    console.log(item);
     setstate((state) => {
-      const cartItems = state.cartItems.filter((elem) => elem.id !== item.id);
+      const cartItems = state.cartItems.filter((elem) => elem.id != item.id);
       return { ...state, cartItems };
     });
   };
 
   return (
-    <Provider store={store}>
-      <div className='container'>
-        <header className='bg-info text-white p-2'>
-          <h4>React + Redux Shopping Cart</h4>
-        </header>
-        <div className='row'>
-          <div className='col-md-9 col-12'>
-            {/* <h3>Product list</h3> */}
-            {/* <hr /> */}
-            <Filter
-              size={state.size}
-              sort={state.sort}
-              handleChangeSize={handleChangeSize}
-              handleChangeSort={handleChangeSort}
-              count={state.products.length}
-            />
-            <hr />
-            <Products products={state.products} handleAddToCart={addToCart} />
-          </div>
-          <div className='col-md-3 col-12'>
-            <h3>Cart</h3>
-            <hr />
-            <Cart
-              cartItems={state.cartItems}
-              handleRemoveFromCart={handleRemoveCart}
-            />
-          </div>
+    <div className='container'>
+      <header className='bg-info text-white p-2'>
+        <h4>React + Redux Shopping Cart</h4>
+      </header>
+      <div className='row'>
+        <div className='col-md-9 col-12'>
+          {/* <h3>Product list</h3> */}
+          {/* <hr /> */}
+          <Filter
+            size={state.size}
+            sort={state.sort}
+            handleChangeSize={handleChangeSize}
+            handleChangeSort={handleChangeSort}
+            count={state.products.length}
+          />
+          <hr />
+          <Products products={state.products} handleAddToCart={addToCart} />
+        </div>
+        <div className='col-md-3 col-12'>
+          <h3>Cart</h3>
+          <hr />
+          <Cart
+            cartItems={state.cartItems}
+            handleRemoveFromCart={handleRemoveCart}
+          />
         </div>
       </div>
-    </Provider>
+    </div>
   );
 }
 

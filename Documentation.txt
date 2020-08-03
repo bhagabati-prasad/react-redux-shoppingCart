@@ -1,0 +1,70 @@
+# Part 01 -  Install Tools
+===============================
+. VS Code - for better coding
+. git - for version control
+
+. React for frontend and
+. Redux for state management
+
+# Part 02 - Build Server
+===============================
+. Install json-server
+    $ npm i -g json-server
+    > It gives us a fake REST API with zero coding
+    >Run: $ json-server public/db.json --port 5000
+
+# Part 03 - Start Server and add Bootstrap
+============================================
+. Now, create db.json to store list of all products.
+. Then run it on json-server with
+    $ json-server public/db.json --port 5000 (It creates a server to get product data with fetch api)
+
+. Add Bootstrap to index.html
+
+# Part 04 - Fetch and Render Products
+=========================================
+. Fetch products from json-server and set it to useState variable.
+. Create Product component.
+. Pass the product list to Product component through props.
+. Import it to App component to render products.
+
+# Part 05 - Filter Component
+================================
+. Create Filter component inside "components/".
+. Import it to App.js.
+. Create function for Sorting by price and by size inside App.js.
+. Pass the functions to Filter component by props.
+. Inside Filter component, use these for "value" and "onChange" event.
+
+# Part 06 - Cart component
+==============================
+. Create Cart component inside "components/".
+. Import it to App.js.
+. Pass props for "cart items" and "remove item" from cart.
+
+# Part 07 - Add To Cart
+==============================
+. At first cart item is empty.
+. So, in this function, var "productAlreadyInCart" is "false".
+. Whe "add to cart" button is clicked from Product.js,
+  - the function checks whether "productAlreadyInCart" is true or false.
+  - If false, it sets "productAlreadyInCart" value to "true",
+  - and add a new property, "count" to each cart item with value "1".
+  - If true, it matches the cart items with newly added item to cart with id.
+  - If id matches, the count value increases by one.
+
+# Part 08 - Remove Item From Cart
+===================================
+. On clicking remove item from Cart.js,
+  - it filters the item by matching the clicked item with cart items
+  - and returns a new filtered list excepting the item.
+
+# Part 09 - Adding Redux
+===================================
+
+
+# Part 10 - Managing Cart By Redux
+====================================
+. Clean App.js
+
+// 11.23
