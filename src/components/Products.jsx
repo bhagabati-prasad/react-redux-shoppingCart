@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { fetchProduct } from "../actions/productActions";
+import { addToCart } from "../actions/cartActions";
 
 const Products = (props) => {
   useEffect(() => {
     props.fetchProduct();
   }, []);
 
-  const { products, handleAddToCart } = props;
+  const { products } = props;
   return (
     <div className='row'>
       {products.map((product) => {
@@ -17,7 +18,7 @@ const Products = (props) => {
               <a
                 href={`#${product.id}`}
                 className='text-decoration-none'
-                onClick={() => handleAddToCart(product)}
+                onClick={() => props.addToCart(props.cartItems, product)}
               >
                 <img
                   src={`/products/${product.sku}_2.jpg`}
@@ -32,7 +33,7 @@ const Products = (props) => {
                 <h5 className='m-0'>${product.price}</h5>
                 <button
                   className='btn btn-info'
-                  onClick={(e) => handleAddToCart(e, product)}
+                  onClick={() => props.addToCart(props.cartItems, product)}
                 >
                   Add to cart
                 </button>
@@ -47,6 +48,7 @@ const Products = (props) => {
 
 const mapStateToProps = (state) => ({
   products: state.products.filteredItems,
+  cartItems: state.cart.items,
 });
 
-export default connect(mapStateToProps, { fetchProduct })(Products);
+export default connect(mapStateToProps, { fetchProduct, addToCart })(Products);

@@ -7,75 +7,6 @@ import { Provider } from "react-redux";
 import store from "./store";
 
 function App() {
-  const [state, setstate] = useState({
-    products: [],
-    filteredProducts: [],
-    cartItems: [],
-  });
-
-  const handleChangeSort = (e) => {
-    setstate({ ...state, sort: e.target.value });
-    listProducts();
-  };
-
-  const handleChangeSize = (e) => {
-    // console.log("handleChangeSize");
-    setstate({ ...state, size: e.target.value });
-    listProducts();
-  };
-
-  const listProducts = () => {
-    setstate((state) => {
-      if (state.sort !== "") {
-        state.filteredProducts.sort((a, b) =>
-          state.sort === "lowest"
-            ? a.price < b.price
-              ? 1
-              : -1
-            : a.price > b.price
-            ? 1
-            : -1
-        );
-      } else {
-        state.filteredProducts.sort((a, b) => (a.id > b.id ? 1 : -1));
-      }
-      if (state.size !== "") {
-        return {
-          products: state.products.filter(
-            (a) => a.availableSizes.indexOf(state.size) >= 0
-          ),
-          ...state,
-        };
-      }
-      return { products: state.filteredProducts, ...state };
-    });
-  };
-
-  const addToCart = (e, product) => {
-    setstate((state) => {
-      const cartItems = state.cartItems;
-      let productAlreadyInCart = false;
-      cartItems.forEach((item) => {
-        if (item.id === product.id) {
-          productAlreadyInCart = true;
-          item.count++;
-        }
-      });
-      if (!productAlreadyInCart) {
-        cartItems.push({ ...product, count: 1 });
-      }
-      return { ...state, cartItems };
-    });
-  };
-
-  const handleRemoveCart = (item) => {
-    // console.log("handleRemoveCart",item);
-    setstate((state) => {
-      const cartItems = state.cartItems.filter((elem) => elem.id !== item.id);
-      return { ...state, cartItems };
-    });
-  };
-
   return (
     <Provider store={store}>
       <div className='container'>
@@ -86,23 +17,14 @@ function App() {
           <div className='col-md-9 col-12'>
             {/* <h3>Product list</h3> */}
             {/* <hr /> */}
-            <Filter
-              size={state.size}
-              sort={state.sort}
-              handleChangeSize={handleChangeSize}
-              handleChangeSort={handleChangeSort}
-              count={state.products.length}
-            />
+            <Filter />
             <hr />
-            <Products products={state.products} handleAddToCart={addToCart} />
+            <Products />
           </div>
           <div className='col-md-3 col-12'>
             <h3>Cart</h3>
             <hr />
-            <Cart
-              cartItems={state.cartItems}
-              handleRemoveFromCart={handleRemoveCart}
-            />
+            <Cart />
           </div>
         </div>
       </div>

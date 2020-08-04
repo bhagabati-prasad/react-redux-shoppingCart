@@ -1,7 +1,9 @@
 import React from "react";
+import { connect } from "react-redux";
+import { removeFromCart } from "../actions/cartActions";
 
 function Cart(props) {
-  const { cartItems, handleRemoveFromCart } = props;
+  const { cartItems } = props;
   return (
     <>
       <div className='alert alert-info'>
@@ -23,7 +25,7 @@ function Cart(props) {
                   </p>
                   <button
                     className='btn-sm btn-warning'
-                    onClick={() => handleRemoveFromCart(item)}
+                    onClick={() => props.removeFromCart(cartItems, item)}
                   >
                     &times;
                   </button>
@@ -44,4 +46,8 @@ function Cart(props) {
   );
 }
 
-export default Cart;
+const mapStateToProps = (state) => ({
+  cartItems: state.cart.items,
+});
+
+export default connect(mapStateToProps, { removeFromCart })(Cart);

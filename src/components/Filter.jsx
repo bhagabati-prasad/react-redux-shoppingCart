@@ -3,13 +3,14 @@ import { connect } from "react-redux";
 import { filterProducts, sortProducts } from "../actions/productActions";
 
 function Filter(props) {
-  const { count, sort, size } = props;
-  // console.log("filteredProducts", sort, props.filteredProducts);
+  const { sort, size } = props;
 
   return (
     <div className='row'>
       <div className='col-md-4 col-12'>
-        <p className='font-weight-bold'>{count} products found</p>
+        <p className='font-weight-bold'>
+          {props.filteredProducts.length} products found
+        </p>
       </div>
       <div className='col-md-4 col-12'>
         <label className='font-weight-bold'>
